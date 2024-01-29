@@ -43,6 +43,7 @@ test.describe('Google', () => {
         await page.keyboard.press('Enter');
         await expect(gPage.searchValue).toContainText("automation");
         await gPage.check();
+        await gPage.scrollToElement(gPage.getResultLocatorFromProvidedSite("wikipedia.org"), 6);
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org")
             .scrollIntoViewIfNeeded({timeout: 10000});
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org").click();

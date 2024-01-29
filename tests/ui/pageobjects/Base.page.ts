@@ -17,4 +17,16 @@ export abstract class BasePage {
         await this.page.goto(this.url);
         await this.page.waitForLoadState("domcontentloaded");
     }
+
+    async scrollToElement(locator: Locator, seconds: number) {
+        for (let i = 0; i < seconds; i++) {
+            if (!await locator.isVisible()) {
+                await this.page.keyboard.press("PageDown");
+                await this.page.waitForTimeout(1000);
+                await this.check();
+            } else {
+                return locator;
+            }
+        }
+    }
 }
