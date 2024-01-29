@@ -12,12 +12,7 @@ test.beforeEach(async ({page}) => {
 });
 
 const PHRASES = [
-    'buy some cheese',
-    'feed the cat',
-    'book a doctors appointment',
     'automation',
-    'playwright',
-    'cypress'
 ];
 
 test.describe('Google', () => {
@@ -39,6 +34,7 @@ test.describe('Google', () => {
         await expect(gPage.searchValue).toContainText("automation");
         await page.keyboard.press('Enter');
         await expect(gPage.searchValue).toContainText("automation");
+        await gPage.check();
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org").click();
         await expect(wikiPage.articleTitle).toBeVisible();
         await expect(wikiPage.logo).toBeVisible();

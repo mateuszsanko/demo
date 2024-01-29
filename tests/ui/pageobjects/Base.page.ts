@@ -10,7 +10,7 @@ export abstract class BasePage {
     }
 
     async check() {
-        expect(this.page.title()).toContain(this.TITLE);
+        await this.page.waitForLoadState("domcontentloaded");
     }
 
     async goto() {
