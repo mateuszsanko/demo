@@ -11,11 +11,11 @@ test.beforeEach(async ({page}) => {
     await gPage.goto();
 });
 
-test.afterEach(async ({ page }, testInfo) => {
+test.afterEach(async ({page}, testInfo) => {
     if (testInfo.status !== testInfo.expectedStatus) {
         const screenshotPath = testInfo.outputPath(`failure.png`);
-        testInfo.attachments.push({ name: 'screenshot', path: screenshotPath, contentType: 'image/png' });
-        await page.screenshot({ path: screenshotPath, timeout: 5000 });
+        testInfo.attachments.push({name: 'screenshot', path: screenshotPath, contentType: 'image/png'});
+        await page.screenshot({path: screenshotPath, timeout: 5000});
     }
 });
 
@@ -26,7 +26,9 @@ const PHRASES = [
 test.describe('Google', () => {
     for (const phrase of PHRASES) {
         test(`Test with phrase ${phrase}`, async ({page}) => {
-            await gPage.cookiesComponent.acceptButton.click();
+            if (!process.env.CI) {
+                await gPage.cookiesComponent.acceptButton.click();
+            }
             await expect(gPage.searchInput).toBeVisible();
             await gPage.searchInput.fill(phrase);
             await expect(page.getByRole('search')).toContainText(phrase);
@@ -36,7 +38,9 @@ test.describe('Google', () => {
     }
 
     test(`search for automation and open Wiki page`, async ({page}) => {
-        await gPage.cookiesComponent.acceptButton.click();
+        if (!process.env.CI) {
+            await gPage.cookiesComponent.acceptButton.click();
+        }
         await expect(gPage.searchInput).toBeVisible();
         await gPage.searchInput.fill("automation");
         await expect(gPage.searchValue).toContainText("automation");
