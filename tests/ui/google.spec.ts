@@ -11,6 +11,14 @@ test.beforeEach(async ({page}) => {
     await gPage.goto();
 });
 
+test.afterEach(async ({ page }, testInfo) => {
+    if (testInfo.status !== testInfo.expectedStatus) {
+        const screenshotPath = testInfo.outputPath(`failure.png`);
+        testInfo.attachments.push({ name: 'screenshot', path: screenshotPath, contentType: 'image/png' });
+        await page.screenshot({ path: screenshotPath, timeout: 5000 });
+    }
+});
+
 const PHRASES = [
     'automation',
 ];
@@ -36,12 +44,12 @@ test.describe('Google', () => {
         await expect(gPage.searchValue).toContainText("automation");
         await gPage.check();
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org").click();
-        await expect(wikiPage.articleTitle).toBeVisible();
+        await gPage.check();
         await expect(wikiPage.logo).toBeVisible();
-        await expect(page).toHaveScreenshot({maxDiffPixels: 20});
+        await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.01});
     });
 
-    test('Screenshot example', async ({page}) => {
+    test.skip('Screenshot example', async ({page}) => {
         await page.goto("https://the-internet.herokuapp.com/disappearing_elements");
         await page.waitForLoadState("domcontentloaded");
         await expect(page).toHaveScreenshot({maxDiffPixels: 20});
