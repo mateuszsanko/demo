@@ -8,4 +8,8 @@ export  class CookiesComponent {
     constructor(page: Page) {
         this.acceptButton = page.locator("div[id] button[id][data-ved]").nth(3);
     }
+
+    async clickAcceptButton() {
+        process.env.CI ? undefined : await this.acceptButton.click();
+    }
 }
