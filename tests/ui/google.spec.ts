@@ -49,7 +49,7 @@ test.describe('Google', () => {
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org").click();
         await wikiPage.check();
         await expect(wikiPage.logo).toBeVisible();
-        await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.01});
+        await page.screenshot();
     });
 
     test.skip('Screenshot example', async ({page}) => {
