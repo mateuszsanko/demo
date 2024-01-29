@@ -26,9 +26,7 @@ const PHRASES = [
 test.describe('Google', () => {
     for (const phrase of PHRASES) {
         test(`Test with phrase ${phrase}`, async ({page}) => {
-            if (!process.env.CI) {
-                await gPage.cookiesComponent.acceptButton.click();
-            }
+            await gPage.cookiesComponent.acceptButton.click();
             await expect(gPage.searchInput).toBeVisible();
             await gPage.searchInput.fill(phrase);
             await expect(page.getByRole('search')).toContainText(phrase);
@@ -38,15 +36,15 @@ test.describe('Google', () => {
     }
 
     test(`search for automation and open Wiki page`, async ({page}) => {
-        if (!process.env.CI) {
-            await gPage.cookiesComponent.acceptButton.click();
-        }
+        await gPage.cookiesComponent.acceptButton.click();
         await expect(gPage.searchInput).toBeVisible();
         await gPage.searchInput.fill("automation");
         await expect(gPage.searchValue).toContainText("automation");
         await page.keyboard.press('Enter');
         await expect(gPage.searchValue).toContainText("automation");
         await gPage.check();
+        await gPage.getResultLocatorFromProvidedSite("wikipedia.org")
+            .scrollIntoViewIfNeeded({timeout: 10000});
         await gPage.getResultLocatorFromProvidedSite("wikipedia.org").click();
         await gPage.check();
         await expect(wikiPage.logo).toBeVisible();

@@ -6,7 +6,6 @@ export  class CookiesComponent {
     readonly cancelButton: Locator;
 
     constructor(page: Page) {
-        this.acceptButton = page.getByRole('button', { name: 'Zaakceptuj wszystko' });
+        this.acceptButton = page.locator("div[id] button[id][data-ved]").nth(3);
     }
-
 }
