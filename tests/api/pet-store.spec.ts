@@ -46,7 +46,7 @@ test("count occurrences of pets", async ({request}) => {
     console.log(result);
 });
 
-test.only("add pet", async ({request}) => {
+test("add pet", async ({request}) => {
     const petPlay = new PetPlaywright(request);
     const response = await petPlay.addPet({
         status: "available",
